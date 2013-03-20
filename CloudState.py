@@ -26,11 +26,12 @@ def index():
 def reportServerState(ip):
     data = json.loads(request.data)
     data['Timestamp'] = datetime.now().isoformat(' ')
-    #assert isinstance(data, dict)
     if not header:
         header.extend(data.keys())
 
-    cloudState[ip] = data.values()
+    # Keep the values ordered by the header keys
+    values = [data[k] for k in header]
+    cloudState[ip] = values
 
     return "OK"
 
