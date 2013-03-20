@@ -1,6 +1,10 @@
+from datetime import datetime
 import os
 import json
-from flask import Flask, send_from_directory, request, jsonify
+from flask import (Flask,
+                   send_from_directory,
+                   request,
+                   jsonify)
 
 app = Flask(__name__)
 
@@ -21,6 +25,7 @@ def index():
 @app.route('/report/<ip>', methods = ['POST'])
 def reportServerState(ip):
     data = json.loads(request.data)
+    data['Timestamp'] = datetime.now().isoformat(' ')
     #assert isinstance(data, dict)
     if not header:
         header.extend(data.keys())
@@ -29,10 +34,10 @@ def reportServerState(ip):
 
     return "OK"
 
-@app.route('/snapshot/<format>')
-def getCloudSnapshot(format):
+@app.route('/snapshot/<output_format>')
+def getCloudSnapshot(output_format):
 
-    if format == 'csv':
+    if output_format == 'csv':
         return csvify([header] + cloudState.values())
     elif format == 'json':
         state = [dict(zip(header, row)) for row in cloudState.values()]
