@@ -39,11 +39,11 @@ def getCloudSnapshot(output_format):
 
     if output_format == 'csv':
         return csvify([header] + cloudState.values())
-    elif format == 'json':
+    elif output_format == 'json':
         state = [dict(zip(header, row)) for row in cloudState.values()]
         return jsonify(dict(state=state))
     else:
-        raise Exception('Unknown format: ' + str(format))
+        raise Exception('Unknown format: ' + str(output_format))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', -1))
