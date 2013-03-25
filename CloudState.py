@@ -30,7 +30,7 @@ def reportServerState(ip):
         header.extend(data.keys())
 
     # Keep the values ordered by the header keys
-    cloudState[ip] = [data[k] for k in header]
+    cloudState[ip] = [data[k] if k in data else 'N/A' for k in header]
 
     return "OK"
 
